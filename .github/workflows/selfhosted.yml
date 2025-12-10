@@ -28,7 +28,7 @@ on:
           - 'LineageOS 16.0'
           - 'CyanogenMOD 14.1'
           - 'AOSP'
-      BUILD_DIFFERENT_ROM:
+      BUILD_DIFFERENT_ROM_CMD:
         description: "Command to initialize a different 'repo' project:"
         required: false
         default: "echo 'Build Starting!'"
@@ -487,12 +487,12 @@ jobs:
 
         if [ "${{ github.event.inputs.BUILD_DIFFERENT_ROM }}" == "echo 'Build Starting!'" ]; then
           export BUILD_DIFFERENT_ROM="$REPO_INIT"
-          echo "Building $BUILD_DIFFERENT_ROM"
+          echo "Building $BUILD_DIFFERENT_ROM_CMD"
         else
           export BUILD_DIFFERENT_ROM="${{ github.event.inputs.BUILD_DIFFERENT_ROM }}"
-          echo "Building $BUILD_DIFFERENT_ROM"
+          echo "Building $BUILD_DIFFERENT_ROM_CMD"
         fi
-        echo "BUILD_DIFFERENT_ROM=$BUILD_DIFFERENT_ROM" >> "$GITHUB_ENV"
+        echo "BUILD_DIFFERENT_ROM=$BUILD_DIFFERENT_ROM_CMD" >> "$GITHUB_ENV"
         echo "We will be building with $LUNCH"
 
       # Create a 'crave' job for building.
@@ -518,7 +518,7 @@ jobs:
 
         crave ${{ secrets.CRAVE_FLAGS }} run --no-patch ${PAID} ${CLEAN} -- "rm -rf .repo/local_manifests/ ${{ github.event.inputs.REMOVALS }} && \
         # Clone local_manifests repository
-        $BUILD_DIFFERENT_ROM ; \
+        $BUILD_DIFFERENT_ROM_CMD ; \
         $LOCAL_MANIFEST && \
 
         # Sync the repositories
