@@ -15,7 +15,7 @@ on:
         
 jobs:
   run-devspace-and-tmux:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
 
     steps:
@@ -57,4 +57,5 @@ jobs:
         fi
         cd actions-runner
          ./config.sh --unattended --url "https://github.com/${{ github.repository }}" --token "${{ inputs.RUNNER_TOKEN }}""
+
 
